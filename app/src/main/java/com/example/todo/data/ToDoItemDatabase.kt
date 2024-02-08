@@ -4,6 +4,9 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 @Database(entities = [ToDoItem::class], version = 1, exportSchema = false)
 abstract class ToDoItemDatabase : RoomDatabase() {
@@ -21,7 +24,39 @@ abstract class ToDoItemDatabase : RoomDatabase() {
     }
 
     private fun buildDatabase(context: Context): ToDoItemDatabase {
-      return Room.databaseBuilder(context, ToDoItemDatabase::class.java, "items-db").build()
+      return Room.databaseBuilder(context, ToDoItemDatabase::class.java, "items-db")
+        .addCallback(object : Callback() {
+          override fun onCreate(db: SupportSQLiteDatabase) {
+            GlobalScope.launch {
+              getInstance(context).toDoItemDao().apply {
+                insertItem(
+                  ToDoItem(
+                    id = "1",
+                    title = "Item 1",
+                    isCompleted = false,
+                    timestamp = 0L
+                  )
+                )
+                insertItem(
+                  ToDoItem(
+                    id = "2",
+                    title = "Item 2",
+                    isCompleted = false,
+                    timestamp = 0L
+                  )
+                )
+                insertItem(
+                  ToDoItem(
+                    id = "3",
+                    title = "Item 3",
+                    isCompleted = false,
+                    timestamp = 0L
+                  )
+                )
+              }
+            }
+          }
+        }).build()
     }
   }
 }

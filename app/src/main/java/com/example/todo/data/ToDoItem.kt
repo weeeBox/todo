@@ -8,6 +8,6 @@ import androidx.room.PrimaryKey
 data class ToDoItem(
   @PrimaryKey val id: String,
   @ColumnInfo(name = "title") val title: String,
-  @ColumnInfo(name = "completed") val completed: Boolean,
+  @ColumnInfo(name = "completed") val isCompleted: Boolean,
   @ColumnInfo(name = "timestamp") val timestamp: Long,
 )

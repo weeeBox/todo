@@ -14,7 +14,7 @@ interface ToDoItemDao {
   @Query("SELECT * FROM items WHERE id = :itemId")
   fun getPlant(itemId: String): Flow<ToDoItem>
 
-  @Query("DELETE * FROM items WHERE id = :itemId")
+  @Query("DELETE FROM items WHERE id = :itemId")
   suspend fun deleteItem(itemId: String)
 
   @Insert
